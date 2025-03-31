@@ -24,6 +24,27 @@
       --radius: 12px;
       --radius-sm: 8px;
       --transition: all 0.3s ease;
+      
+      /* Dark mode variables */
+      --body-bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --text-color: var(--dark);
+      --text-muted: var(--gray);
+      --item-bg: #f8f9fa;
+      --item-hover: #f0f4f8;
+    }
+    
+    /* Dark mode theme */
+    [data-theme="dark"] {
+      --body-bg: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #e0e0e0;
+      --text-muted: #a0a0a0;
+      --item-bg: #2a2a2a;
+      --item-hover: #333333;
+      --gray-light: #444444;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
     }
 
     * {
@@ -34,9 +55,10 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: #f5f7fb;
-      color: var(--dark);
+      background-color: var(--body-bg);
+      color: var(--text-color);
       line-height: 1.6;
+      transition: var(--transition);
     }
 
     .container {
@@ -55,6 +77,78 @@
       box-shadow: var(--shadow-lg);
       position: relative;
       overflow: hidden;
+    }
+
+    /* Theme toggle switch */
+    .theme-switch-wrapper {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .theme-switch {
+      display: inline-block;
+      position: relative;
+      width: 50px;
+      height: 24px;
+    }
+
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.5);
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+      background-color: #333;
+    }
+
+    .slider .icon {
+      position: absolute;
+      top: 4px;
+      font-size: 16px;
+    }
+
+    .slider .sun {
+      left: 6px;
+      color: #ff9800;
+    }
+
+    .slider .moon {
+      right: 6px;
+      color: #f0f0f0;
     }
 
     header::before {
@@ -131,7 +225,7 @@
     }
 
     .stat-card {
-      background: white;
+      background: var(--card-bg);
       border-radius: var(--radius);
       padding: 1.5rem;
       box-shadow: var(--shadow);
@@ -157,7 +251,7 @@
     }
 
     .stat-card div:first-child {
-      color: var(--gray);
+      color: var(--text-muted);
       font-size: 0.9rem;
       font-weight: 500;
       text-transform: uppercase;
@@ -174,7 +268,7 @@
     }
 
     .progress-section {
-      background: white;
+      background: var(--card-bg);
       border-radius: var(--radius);
       padding: 1.5rem;
       box-shadow: var(--shadow);
@@ -186,7 +280,7 @@
       justify-content: space-between;
       margin-bottom: 1rem;
       font-size: 0.9rem;
-      color: var(--gray-dark);
+      color: var(--text-color);
     }
 
     .current-time, .close-time {
@@ -212,11 +306,11 @@
     #connection-status {
       text-align: center;
       font-size: 0.8rem;
-      color: var(--gray);
+      color: var(--text-muted);
     }
 
     .chart-container {
-      background: white;
+      background: var(--card-bg);
       border-radius: var(--radius);
       padding: 1.5rem;
       box-shadow: var(--shadow);
@@ -226,7 +320,7 @@
     .chart-container h2 {
       text-align: center;
       margin-bottom: 1.5rem;
-      color: var(--dark);
+      color: var(--text-color);
       font-size: 1.5rem;
       font-weight: 600;
       position: relative;
@@ -286,7 +380,7 @@
       width: 100%;
       font-weight: 600;
       font-size: 0.8rem;
-      color: var(--gray-dark);
+      color: var(--text-color);
     }
 
     .vote-count {
@@ -296,11 +390,11 @@
       text-align: center;
       font-weight: 700;
       font-size: 1rem;
-      color: var(--dark);
+      color: var(--text-color);
     }
 
     .top-projects, .latest-votes {
-      background: white;
+      background: var(--card-bg);
       border-radius: var(--radius);
       padding: 1.5rem;
       box-shadow: var(--shadow);
@@ -310,7 +404,7 @@
     .top-projects h2, .latest-votes h2 {
       text-align: center;
       margin-bottom: 1.5rem;
-      color: var(--dark);
+      color: var(--text-color);
       font-size: 1.5rem;
       font-weight: 600;
       position: relative;
@@ -335,14 +429,14 @@
       padding: 1rem;
       border-radius: var(--radius-sm);
       margin-bottom: 0.75rem;
-      background-color: #f8f9fa;
+      background-color: var(--item-bg);
       transition: var(--transition);
       position: relative;
     }
 
     .rank-item:hover {
       transform: translateX(5px);
-      background-color: #f0f4f8;
+      background-color: var(--item-hover);
     }
 
     .rank-number {
@@ -368,7 +462,7 @@
       flex: 1;
       font-weight: 600;
       font-size: 1.1rem;
-      color: var(--dark);
+      color: var(--text-color);
     }
 
     .votes-number {
@@ -441,17 +535,17 @@
       padding: 0.75rem;
       border-radius: var(--radius-sm);
       margin-bottom: 0.5rem;
-      background-color: #f8f9fa;
+      background-color: var(--item-bg);
       align-items: center;
       transition: var(--transition);
     }
 
     .vote-item:hover {
-      background-color: #f0f4f8;
+      background-color: var(--item-hover);
     }
 
     .vote-time {
-      color: var(--gray);
+      color: var(--text-muted);
       font-size: 0.85rem;
     }
 
@@ -469,7 +563,7 @@
 
     @keyframes highlight {
       0% { background-color: rgba(247, 37, 133, 0.2); }
-      100% { background-color: #f8f9fa; }
+      100% { background-color: var(--item-bg); }
     }
 
     .confetti {
@@ -571,6 +665,16 @@
 <body>
   <div class="container">
     <header>
+      <!-- Dark mode toggle switch -->
+      <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+          <input type="checkbox" id="checkbox" />
+          <div class="slider">
+            <span class="icon sun">☀️</span>
+            <span class="icon moon">🌙</span>
+          </div>
+        </label>
+      </div>
       <h1>Bảng Xếp Hạng Bình Chọn Áo Khoa</h1>
       <div class="subtitle">Theo dõi cuộc đua bình chọn trong thời gian thực</div>
       <div class="live-indicator">LIVE</div>
@@ -621,6 +725,29 @@
   </div>
 
   <script>
+    // Dark mode toggle functionality
+    const toggleSwitch = document.querySelector('#checkbox');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    
+    // Set initial theme
+    if (currentTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      toggleSwitch.checked = true;
+    }
+    
+    // Toggle between light and dark mode
+    function switchTheme(e) {
+      if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    
+    toggleSwitch.addEventListener('change', switchTheme);
+    
     // Khai báo thông tin Google Sheets
     const SPREADSHEET_ID = "14TAlwEKIrEHupY9h1L2VNt4L2P4MZ4siRWgQtDvPU7A";
     const API_KEY = "AIzaSyDlSWqWDoTHK3V-pRqMyu6GKMl1-tNZrYw";
