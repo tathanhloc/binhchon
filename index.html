@@ -25,7 +25,7 @@
       --radius-sm: 8px;
       --transition: all 0.3s ease;
       
-      /* Dark mode variables */
+      /* Light mode variables */
       --body-bg: #f5f7fb;
       --card-bg: #ffffff;
       --text-color: var(--dark);
@@ -35,6 +35,21 @@
     }
     
     /* Dark mode theme */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --body-bg: #121212;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --text-muted: #a0a0a0;
+        --item-bg: #2a2a2a;
+        --item-hover: #333333;
+        --gray-light: #444444;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+      }
+    }
+    
+    /* Manual dark mode override */
     [data-theme="dark"] {
       --body-bg: #121212;
       --card-bg: #1e1e1e;
@@ -45,6 +60,18 @@
       --gray-light: #444444;
       --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Manual light mode override */
+    [data-theme="light"] {
+      --body-bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --text-color: var(--dark);
+      --text-muted: var(--gray);
+      --item-bg: #f8f9fa;
+      --item-hover: #f0f4f8;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
 
     * {
@@ -587,6 +614,19 @@
         opacity: 0;
         top: 100vh;
         transform: translateX(100px) rotate(360deg);
+      }
+    }
+
+    /* Grid layout for desktop */
+    @media (min-width: 992px) {
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      
+      .chart-container {
+        grid-column: 1 / -1;
       }
     }
 
@@ -1134,33 +1174,47 @@
       <div id="connection-status">Đang kết nối với Google Sheets...</div>
     </div>
     
-    <div class="chart-container">
-      <h2>Biểu đồ số lượt bình chọn</h2>
-      <div class="bar-chart">
-        <div class="bar-container" id="bar-container"></div>
+    <div class="dashboard-grid">
+      <div class="chart-container">
+        <h2>Biểu đồ số lượt bình chọn</h2>
+        <div class="bar-chart">
+          <div class="bar-container" id="bar-container"></div>
+        </div>
       </div>
-    </div>
-    
-    <div class="top-projects">
-      <h2>Xếp hạng dự án</h2>
-      <div id="rankings"></div>
-    </div>
-    
-    <div class="latest-votes">
-      <h2>Lượt bình chọn mới nhất</h2>
-      <div id="latest-votes"></div>
+      
+      <div class="top-projects">
+        <h2>Xếp hạng dự án</h2>
+        <div id="rankings"></div>
+      </div>
+      
+      <div class="latest-votes">
+        <h2>Lượt bình chọn mới nhất</h2>
+        <div id="latest-votes"></div>
+      </div>
     </div>
   </div>
 
   <script>
+    // Check for system dark mode preference
+    function getSystemThemePreference() {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
     // Dark mode toggle functionality
     const toggleSwitch = document.querySelector('#checkbox');
-    const currentTheme = localStorage.getItem('theme') || 'light';
     
-    // Set initial theme
+    // Set initial theme based on system preference or saved preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemTheme = getSystemThemePreference();
+    const currentTheme = savedTheme || systemTheme;
+    
+    // Apply initial theme
     if (currentTheme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
       toggleSwitch.checked = true;
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      toggleSwitch.checked = false;
     }
     
     // Toggle between light and dark mode
@@ -1175,6 +1229,22 @@
     }
     
     toggleSwitch.addEventListener('change', switchTheme);
+    
+    // Listen for system theme changes
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        // Only apply if user hasn't manually set a preference
+        if (!localStorage.getItem('theme')) {
+          if (e.matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            toggleSwitch.checked = true;
+          } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            toggleSwitch.checked = false;
+          }
+        }
+      });
+    }
     
     // Khai báo thông tin Google Sheets
     const SPREADSHEET_ID = "14TAlwEKIrEHupY9h1L2VNt4L2P4MZ4siRWgQtDvPU7A";
