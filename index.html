@@ -1327,6 +1327,12 @@
       let projectsToShow = sortedProjects;
       const isSmallScreen = window.innerWidth <= 768;
       
+      // Xóa thông báo cũ nếu có
+      const existingInfo = barContainer.parentElement.querySelector('div[style*="text-align: center"]');
+      if (existingInfo) {
+        existingInfo.remove();
+      }
+      
       if (isSmallScreen) {
         projectsToShow = sortedProjects.slice(0, 8);
         // Thêm thông báo nhỏ cho người dùng biết đang xem dữ liệu rút gọn
@@ -1340,7 +1346,7 @@
       }
       
       // Tìm dự án có số lượt bình chọn cao nhất
-      const maxVotes = Math.max(...projectsToShow.map(project => project.votes));
+      const maxVotes = Math.max(...projectsToShow.map(project => project.votes), 1);
       
       // Tạo các cột cho biểu đồ
       projectsToShow.forEach(project => {
@@ -1367,14 +1373,14 @@
 
     // Thay đổi phần cập nhật xếp hạng - hiển thị ribbon cho TOP 5 thay vì TOP 3
     function updateRankings() {
-    const rankingsContainer = document.getElementById('rankings');
-    rankingsContainer.innerHTML = '';
-    
-    // Sắp xếp dự án theo số lượt bình chọn
-    const sortedProjects = [...projects].sort((a, b) => b.votes - a.votes);
-    
-    // Tạo danh sách xếp hạng
-    sortedProjects.forEach((project, index) => {
+      const rankingsContainer = document.getElementById('rankings');
+      rankingsContainer.innerHTML = '';
+      
+      // Sắp xếp dự án theo số lượt bình chọn
+      const sortedProjects = [...projects].sort((a, b) => b.votes - a.votes);
+      
+      // Tạo danh sách xếp hạng
+      sortedProjects.forEach((project, index) => {
         const rankItem = document.createElement('div');
         rankItem.className = `rank-item rank-${index + 1}`;
         
@@ -1396,23 +1402,23 @@
         
         // Thêm ruy băng cho top 5 (thay vì top 3)
         if (index < 5 && project.votes > 0) {
-        const ribbon = document.createElement('div');
-        ribbon.className = 'ribbon';
-        
-        const ribbonSpan = document.createElement('span');
-        // Cập nhật text hiển thị cho Top 4 và Top 5
-        if (index === 0) ribbonSpan.textContent = 'Top 1';
-        else if (index === 1) ribbonSpan.textContent = 'Top 2';
-        else if (index === 2) ribbonSpan.textContent = 'Top 3';
-        else if (index === 3) ribbonSpan.textContent = 'Top 4';
-        else ribbonSpan.textContent = 'Top 5';
-        
-        ribbon.appendChild(ribbonSpan);
-        rankItem.appendChild(ribbon);
+          const ribbon = document.createElement('div');
+          ribbon.className = 'ribbon';
+          
+          const ribbonSpan = document.createElement('span');
+          // Cập nhật text hiển thị cho Top 4 và Top 5
+          if (index === 0) ribbonSpan.textContent = 'Top 1';
+          else if (index === 1) ribbonSpan.textContent = 'Top 2';
+          else if (index === 2) ribbonSpan.textContent = 'Top 3';
+          else if (index === 3) ribbonSpan.textContent = 'Top 4';
+          else ribbonSpan.textContent = 'Top 5';
+          
+          ribbon.appendChild(ribbonSpan);
+          rankItem.appendChild(ribbon);
         }
         
         rankingsContainer.appendChild(rankItem);
-    });
+      });
     }
 
     // Cập nhật lượt bình chọn mới nhất
@@ -1444,24 +1450,24 @@
 
     // Cập nhật thời gian còn lại
     function updateRemainingTime() {
-    const now = new Date();
-    const endDate = new Date('2025-04-07T17:59:59');
-    
-    const difference = endDate - now;
-    
-    if (difference > 0) {
+      const now = new Date();
+      const endDate = new Date('2025-04-07T17:59:59');
+      
+      const difference = endDate - now;
+      
+      if (difference > 0) {
         const hours = Math.floor(difference / (1000 * 60 * 60));
         const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
         
         document.getElementById('time-remaining').textContent = `${hours}h ${minutes}m ${seconds}s`;
-    } else {
+      } else {
         document.getElementById('time-remaining').textContent = 'Đã kết thúc';
-    }
-    
-    // Cập nhật thời gian hiện tại
-    const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' };
-    document.getElementById('current-time').textContent = `Hiện tại: ${now.toLocaleString('vi-VN', options)}`;
+      }
+      
+      // Cập nhật thời gian hiện tại
+      const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' };
+      document.getElementById('current-time').textContent = `Hiện tại: ${now.toLocaleString('vi-VN', options)}`;
     }
 
     // Cập nhật thanh tiến trình
