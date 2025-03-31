@@ -65,6 +65,7 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      width: 100%;
     }
 
     header {
@@ -589,34 +590,126 @@
       }
     }
 
-    @media (max-width: 768px) {
+    /* Enhanced Responsive Styles */
+    
+    /* Extra large devices (large desktops) */
+    @media (min-width: 1200px) {
       .container {
-        padding: 10px;
+        padding: 30px;
+      }
+      
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .bar-chart {
+        height: 450px;
+      }
+    }
+    
+    /* Large devices (desktops) */
+    @media (max-width: 1199px) and (min-width: 992px) {
+      .container {
+        padding: 25px;
+      }
+      
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
       }
       
       h1 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
+      }
+      
+      .bar-chart {
+        height: 400px;
+      }
+    }
+    
+    /* Medium devices (tablets) */
+    @media (max-width: 991px) and (min-width: 769px) {
+      .container {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 2rem;
       }
       
       .subtitle {
-        font-size: 1rem;
+        font-size: 1.1rem;
+      }
+      
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      
+      .stat-value {
+        font-size: 2.2rem;
+      }
+      
+      .bar-chart {
+        height: 350px;
+      }
+    }
+    
+    /* Small devices (landscape phones) */
+    @media (max-width: 768px) and (min-width: 576px) {
+      .container {
+        padding: 15px;
+      }
+      
+      header {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.7rem;
+      }
+      
+      .subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.2rem;
+      }
+      
+      .live-indicator {
+        padding: 0.4rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      .stats {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      
+      .stat-card {
+        padding: 1.2rem;
+      }
+      
+      .stat-value {
+        font-size: 1.8rem;
       }
       
       .bar-chart {
         height: 300px;
       }
       
-      .stat-value {
-        font-size: 2rem;
+      .bar-container {
+        gap: 0.3rem;
+      }
+      
+      .bar-label {
+        font-size: 0.75rem;
       }
       
       .rank-item, .vote-item {
-        padding: 0.75rem;
+        padding: 0.7rem;
       }
       
       .rank-number {
-        font-size: 1.2rem;
-        min-width: 40px;
+        min-width: 35px;
+        font-size: 1.1rem;
       }
       
       .project-name {
@@ -624,40 +717,375 @@
       }
       
       .votes-number {
+        padding: 0.3rem 0.7rem;
+        min-width: 65px;
         font-size: 0.8rem;
-        min-width: 70px;
-        padding: 0.3rem 0.75rem;
+      }
+      
+      .chart-container h2, .top-projects h2, .latest-votes h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
       }
     }
-
-    @media (max-width: 480px) {
+    
+    /* Extra small devices (phones) */
+    @media (max-width: 575px) {
+      .container {
+        padding: 10px;
+      }
+      
+      header {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .theme-switch-wrapper {
+        top: 10px;
+        right: 10px;
+      }
+      
       h1 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        margin-bottom: 0.3rem;
       }
       
       .subtitle {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
       }
       
       .live-indicator {
-        padding: 0.4rem 1rem;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+      }
+      
+      .live-indicator::before {
+        width: 8px;
+        height: 8px;
+        margin-right: 6px;
+      }
+      
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .stat-card {
+        padding: 1rem;
+      }
+      
+      .stat-card div:first-child {
         font-size: 0.8rem;
       }
       
       .stat-value {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+        margin: 0.3rem 0;
       }
       
-      .bar-chart {
-        height: 250px;
+      .progress-section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
       }
       
-      .bar-label {
+      .time-container {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 0.8rem;
+      }
+      
+      .current-time, .close-time {
+        margin-bottom: 0.3rem;
+      }
+      
+      .progress-bar {
+        height: 6px;
+        margin-bottom: 0.8rem;
+      }
+      
+      #connection-status {
         font-size: 0.7rem;
       }
       
+      .chart-container, .top-projects, .latest-votes {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .chart-container h2, .top-projects h2, .latest-votes h2 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+      }
+      
+      .chart-container h2::after, .top-projects h2::after, .latest-votes h2::after {
+        width: 40px;
+        height: 2px;
+      }
+      
+      .bar-chart {
+        height: 200px;
+        padding-bottom: 1.5rem;
+      }
+      
+      .bar-container {
+        gap: 0.2rem;
+      }
+      
+      .bar {
+        min-width: 20px;
+      }
+      
+      .bar-label {
+        bottom: -25px;
+        font-size: 0.65rem;
+      }
+      
       .vote-count {
+        top: -20px;
+        font-size: 0.7rem;
+      }
+      
+      .rank-item {
+        padding: 0.6rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .rank-number {
+        font-size: 1rem;
+        min-width: 30px;
+      }
+      
+      .project-name {
         font-size: 0.8rem;
+      }
+      
+      .votes-number {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+        min-width: 60px;
+      }
+      
+      .ribbon {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .ribbon span {
+        font-size: 8px;
+        line-height: 16px;
+        width: 80px;
+        top: 15px;
+        right: -17px;
+      }
+      
+      .vote-item {
+        padding: 0.6rem;
+        margin-bottom: 0.4rem;
+      }
+      
+      .vote-time {
+        font-size: 0.75rem;
+      }
+      
+      .vote-project {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+      }
+    }
+    
+    /* For extra small portrait phones */
+    @media (max-width: 375px) {
+      h1 {
+        font-size: 1.2rem;
+      }
+      
+      .subtitle {
+        font-size: 0.8rem;
+      }
+      
+      .stats {
+        gap: 0.6rem;
+      }
+      
+      .stat-card {
+        padding: 0.8rem;
+      }
+      
+      .stat-value {
+        font-size: 1.3rem;
+      }
+      
+      .bar-chart {
+        height: 180px;
+      }
+      
+      .bar {
+        min-width: 16px;
+      }
+      
+      .bar-label {
+        font-size: 0.6rem;
+      }
+      
+      .vote-count {
+        font-size: 0.65rem;
+      }
+    }
+    
+    /* For foldable devices and very small screens */
+    @media (max-width: 320px) {
+      header {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.1rem;
+      }
+      
+      .subtitle {
+        font-size: 0.75rem;
+      }
+      
+      .live-indicator {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.7rem;
+      }
+      
+      .stat-value {
+        font-size: 1.2rem;
+      }
+      
+      .bar-chart {
+        height: 160px;
+      }
+      
+      .bar {
+        min-width: 14px;
+      }
+      
+      .rank-number {
+        min-width: 25px;
+        font-size: 0.9rem;
+      }
+      
+      .project-name {
+        font-size: 0.75rem;
+      }
+      
+      .votes-number {
+        font-size: 0.65rem;
+        min-width: 55px;
+        padding: 0.2rem 0.5rem;
+      }
+    }
+    
+    /* Orientation specific styles */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .container {
+        padding: 10px;
+      }
+      
+      header {
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.3rem;
+      }
+      
+      .subtitle {
+        display: none;
+      }
+      
+      .live-indicator {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.7rem;
+      }
+      
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .stat-card {
+        padding: 0.7rem;
+      }
+      
+      .stat-value {
+        font-size: 1.2rem;
+        margin: 0.2rem 0;
+      }
+      
+      .progress-section, .chart-container, .top-projects, .latest-votes {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+      }
+      
+      .chart-container h2, .top-projects h2, .latest-votes h2 {
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .bar-chart {
+        height: 150px;
+      }
+    }
+    
+    /* Print styles */
+    @media print {
+      body {
+        background-color: white;
+        color: black;
+      }
+      
+      header {
+        background: #f0f0f0;
+        color: black;
+        box-shadow: none;
+      }
+      
+      .theme-switch-wrapper, .live-indicator, #connection-status, .confetti {
+        display: none;
+      }
+      
+      .container {
+        max-width: 100%;
+        padding: 10px;
+      }
+      
+      .chart-container, .top-projects, .latest-votes, .progress-section, .stat-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+      
+      .bar-chart {
+        height: 300px;
+      }
+    }
+    
+    /* Accessibility enhancements */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      
+      .confetti, .new-vote {
+        animation: none !important;
+      }
+      
+      .live-indicator, .live-indicator::before {
+        animation: none !important;
+      }
+      
+      .stat-card:hover, .rank-item:hover, .vote-item:hover {
+        transform: none !important;
       }
     }
   </style>
@@ -822,11 +1250,30 @@
       const barContainer = document.getElementById('bar-container');
       barContainer.innerHTML = '';
       
+      // Lấy tất cả dự án và sắp xếp theo số lượt bình chọn
+      const sortedProjects = [...projects].sort((a, b) => b.votes - a.votes);
+      
+      // Kiểm tra nếu là màn hình nhỏ, chỉ hiển thị top 8 dự án
+      let projectsToShow = sortedProjects;
+      const isSmallScreen = window.innerWidth <= 768;
+      
+      if (isSmallScreen) {
+        projectsToShow = sortedProjects.slice(0, 8);
+        // Thêm thông báo nhỏ cho người dùng biết đang xem dữ liệu rút gọn
+        const infoElement = document.createElement('div');
+        infoElement.style.textAlign = 'center';
+        infoElement.style.fontSize = '0.8rem';
+        infoElement.style.color = 'var(--text-muted)';
+        infoElement.style.marginBottom = '10px';
+        infoElement.textContent = '* Hiển thị top 8 dự án trên thiết bị di động';
+        barContainer.parentElement.insertBefore(infoElement, barContainer);
+      }
+      
       // Tìm dự án có số lượt bình chọn cao nhất
-      const maxVotes = Math.max(...projects.map(project => project.votes));
+      const maxVotes = Math.max(...projectsToShow.map(project => project.votes));
       
       // Tạo các cột cho biểu đồ
-      projects.forEach(project => {
+      projectsToShow.forEach(project => {
         const barHeight = project.votes > 0 ? (project.votes / maxVotes) * 100 : 0;
         
         const bar = document.createElement('div');
@@ -1171,6 +1618,15 @@
       
       // Làm mới dữ liệu từ Google Sheets mỗi 30 giây
       setInterval(fetchSheetData, 30000);
+      
+      // Thêm event listener cho resize để cập nhật biểu đồ khi thay đổi kích thước màn hình
+      window.addEventListener('resize', function() {
+        // Sử dụng debounce để tránh gọi quá nhiều lần
+        if (this.resizeTimer) clearTimeout(this.resizeTimer);
+        this.resizeTimer = setTimeout(function() {
+          updateBarChart();
+        }, 300);
+      });
     }
     
     // Khởi tạo ứng dụng
