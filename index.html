@@ -4,235 +4,484 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bảng Xếp Hạng Bình Chọn Áo Khoa</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-    
-    body {
-      font-family: 'Roboto', sans-serif;
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4895ef;
+      --secondary: #3f37c9;
+      --accent: #f72585;
+      --success: #4cc9f0;
+      --warning: #f8961e;
+      --danger: #f94144;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --gray-light: #dee2e6;
+      --gray-dark: #343a40;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: all 0.3s ease;
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f5f5f5;
-      color: #333;
+      box-sizing: border-box;
     }
-    
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f5f7fb;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
-    
+
     header {
       text-align: center;
-      margin-bottom: 30px;
-      background-color: #3498db;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
-      padding: 20px 0;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
     }
-    
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
+      z-index: 0;
+    }
+
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+
     h1 {
-      margin: 0;
       font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
-    
+
     .subtitle {
       font-size: 1.2rem;
       opacity: 0.9;
-      margin-top: 10px;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
     }
-    
+
     .live-indicator {
-      display: inline-block;
-      background-color: #e74c3c;
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--accent);
       color: white;
-      font-weight: bold;
-      padding: 5px 15px;
-      border-radius: 20px;
-      margin-top: 15px;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3);
       animation: pulse 1.5s infinite;
     }
-    
+
+    .live-indicator::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: blink 1.5s infinite;
+    }
+
     @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes blink {
       0% { opacity: 1; }
       50% { opacity: 0.5; }
       100% { opacity: 1; }
     }
-    
-    .chart-container {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
       overflow: hidden;
     }
-    
-    .bar-chart {
-      height: 500px;
-      position: relative;
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
     }
-    
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stat-card div:first-child {
+      color: var(--gray);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0.5rem 0;
+      line-height: 1.2;
+    }
+
+    .progress-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .time-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--gray-dark);
+    }
+
+    .current-time, .close-time {
+      font-weight: 600;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: var(--gray-light);
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+      border-radius: 4px;
+      width: 0;
+      transition: width 1s ease-in-out;
+    }
+
+    #connection-status {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .chart-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      font-size: 1.5rem;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+
+    .chart-container h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    .bar-chart {
+      height: 400px;
+      position: relative;
+      padding-bottom: 2rem;
+    }
+
     .bar-container {
       display: flex;
       align-items: flex-end;
       height: 100%;
       position: relative;
+      gap: 0.5rem;
     }
-    
+
     .bar {
       flex: 1;
-      margin: 0 5px;
-      transition: height 1s ease-in-out;
+      transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
-      min-width: 40px;
+      min-width: 30px;
       border-radius: 8px 8px 0 0;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    
+
+    .bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      border-radius: 8px 8px 0 0;
+    }
+
     .bar-label {
       position: absolute;
       bottom: -30px;
       text-align: center;
       width: 100%;
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--gray-dark);
     }
-    
+
     .vote-count {
       position: absolute;
       top: -25px;
       width: 100%;
       text-align: center;
-      font-weight: bold;
-      font-size: 1.2rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--dark);
     }
-    
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    
-    .stat-card {
+
+    .top-projects, .latest-votes {
       background: white;
-      border-radius: 10px;
-      padding: 20px;
-      flex: 1;
-      min-width: 200px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .top-projects h2, .latest-votes h2 {
       text-align: center;
-      transition: transform 0.3s;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      font-size: 1.5rem;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 0.75rem;
     }
-    
-    .stat-card:hover {
-      transform: translateY(-5px);
+
+    .top-projects h2::after, .latest-votes h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
     }
-    
-    .stat-value {
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 10px 0;
-      color: #3498db;
-    }
-    
-    .top-projects {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
-    }
-    
-    .top-projects h2 {
-      text-align: center;
-      margin-top: 0;
-      border-bottom: 2px solid #f0f0f0;
-      padding-bottom: 15px;
-    }
-    
+
     .rank-item {
       display: flex;
       align-items: center;
-      border-bottom: 1px solid #f0f0f0;
-      padding: 15px 0;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.75rem;
+      background-color: #f8f9fa;
+      transition: var(--transition);
+      position: relative;
     }
-    
+
+    .rank-item:hover {
+      transform: translateX(5px);
+      background-color: #f0f4f8;
+    }
+
     .rank-number {
       font-size: 1.5rem;
-      font-weight: bold;
+      font-weight: 700;
       min-width: 50px;
-      color: #7f8c8d;
+      color: var(--gray);
     }
-    
+
     .rank-1 .rank-number {
-      color: #f1c40f;
+      color: #ffd700;
     }
-    
+
     .rank-2 .rank-number {
-      color: #bdc3c7;
+      color: #c0c0c0;
     }
-    
+
     .rank-3 .rank-number {
-      color: #d35400;
+      color: #cd7f32;
     }
-    
+
     .project-name {
       flex: 1;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 1.1rem;
+      color: var(--dark);
     }
-    
+
     .votes-number {
-      font-weight: bold;
-      background-color: #3498db;
+      font-weight: 600;
+      background-color: var(--primary);
       color: white;
-      padding: 5px 15px;
+      padding: 0.4rem 1rem;
       border-radius: 20px;
-      min-width: 60px;
+      min-width: 80px;
       text-align: center;
+      box-shadow: 0 2px 4px rgba(67, 97, 238, 0.3);
     }
-    
-    .progress-section {
-      margin-top: 50px;
-    }
-    
-    .progress-bar {
-      height: 10px;
-      background-color: #ecf0f1;
-      border-radius: 5px;
-      margin-bottom: 30px;
+
+    .ribbon {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      z-index: 1;
       overflow: hidden;
+      width: 75px;
+      height: 75px;
+      text-align: right;
     }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #3498db, #2ecc71);
-      border-radius: 5px;
-      width: 0;
-      transition: width 1s ease-in-out;
+
+    .ribbon span {
+      font-size: 10px;
+      font-weight: bold;
+      color: #FFF;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 20px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      width: 100px;
+      display: block;
+      background: var(--accent);
+      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+      position: absolute;
+      top: 19px;
+      right: -21px;
     }
-    
-    .time-container {
+
+    .ribbon span::before {
+      content: "";
+      position: absolute;
+      left: 0px;
+      top: 100%;
+      z-index: -1;
+      border-left: 3px solid var(--accent);
+      border-right: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid var(--accent);
+    }
+
+    .ribbon span::after {
+      content: "";
+      position: absolute;
+      right: 0px;
+      top: 100%;
+      z-index: -1;
+      border-left: 3px solid transparent;
+      border-right: 3px solid var(--accent);
+      border-bottom: 3px solid transparent;
+      border-top: 3px solid var(--accent);
+    }
+
+    .vote-item {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.5rem;
+      background-color: #f8f9fa;
+      align-items: center;
+      transition: var(--transition);
     }
-    
-    .current-time, .close-time {
-      font-weight: bold;
+
+    .vote-item:hover {
+      background-color: #f0f4f8;
     }
-    
+
+    .vote-time {
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+
+    .vote-project {
+      font-weight: 600;
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      background-color: rgba(67, 97, 238, 0.1);
+      border-radius: 4px;
+    }
+
+    .new-vote {
+      animation: highlight 2s ease-out;
+    }
+
+    @keyframes highlight {
+      0% { background-color: rgba(247, 37, 133, 0.2); }
+      100% { background-color: #f8f9fa; }
+    }
+
     .confetti {
       position: fixed;
       width: 10px;
       height: 10px;
-      background-color: #f39c12;
+      background-color: var(--primary);
       opacity: 0;
       top: 0;
       animation: fall 3s linear forwards;
     }
-    
+
     @keyframes fall {
       0% {
         opacity: 1;
@@ -245,116 +494,76 @@
         transform: translateX(100px) rotate(360deg);
       }
     }
-    
-    .ribbon {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      z-index: 1;
-      overflow: hidden;
-      width: 75px;
-      height: 75px;
-      text-align: right;
-    }
-    
-    .ribbon span {
-      font-size: 10px;
-      font-weight: bold;
-      color: #FFF;
-      text-transform: uppercase;
-      text-align: center;
-      line-height: 20px;
-      transform: rotate(45deg);
-      -webkit-transform: rotate(45deg);
-      width: 100px;
-      display: block;
-      background: #e74c3c;
-      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
-      position: absolute;
-      top: 19px;
-      right: -21px;
-    }
-    
-    .ribbon span::before {
-      content: "";
-      position: absolute;
-      left: 0px;
-      top: 100%;
-      z-index: -1;
-      border-left: 3px solid #e74c3c;
-      border-right: 3px solid transparent;
-      border-bottom: 3px solid transparent;
-      border-top: 3px solid #e74c3c;
-    }
-    
-    .ribbon span::after {
-      content: "";
-      position: absolute;
-      right: 0px;
-      top: 100%;
-      z-index: -1;
-      border-left: 3px solid transparent;
-      border-right: 3px solid #e74c3c;
-      border-bottom: 3px solid transparent;
-      border-top: 3px solid #e74c3c;
-    }
-    
-    .latest-votes {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
-    }
-    
-    .latest-votes h2 {
-      text-align: center;
-      margin-top: 0;
-      border-bottom: 2px solid #f0f0f0;
-      padding-bottom: 15px;
-    }
-    
-    .vote-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #f0f0f0;
-      align-items: center;
-    }
-    
-    .vote-time {
-      color: #7f8c8d;
-    }
-    
-    .vote-project {
-      font-weight: bold;
-      color: #3498db;
-    }
-    
-    .new-vote {
-      animation: highlight 2s ease-out;
-    }
-    
-    @keyframes highlight {
-      0% { background-color: #f1c40f; }
-      100% { background-color: transparent; }
-    }
-    
+
     @media (max-width: 768px) {
       .container {
         padding: 10px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
       }
       
       .bar-chart {
         height: 300px;
       }
       
-      .stats {
-        flex-direction: column;
+      .stat-value {
+        font-size: 2rem;
       }
       
+      .rank-item, .vote-item {
+        padding: 0.75rem;
+      }
+      
+      .rank-number {
+        font-size: 1.2rem;
+        min-width: 40px;
+      }
+      
+      .project-name {
+        font-size: 0.9rem;
+      }
+      
+      .votes-number {
+        font-size: 0.8rem;
+        min-width: 70px;
+        padding: 0.3rem 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
       h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
+      }
+      
+      .subtitle {
+        font-size: 0.9rem;
+      }
+      
+      .live-indicator {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .stat-value {
+        font-size: 1.8rem;
+      }
+      
+      .bar-chart {
+        height: 250px;
+      }
+      
+      .bar-label {
+        font-size: 0.7rem;
+      }
+      
+      .vote-count {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -382,17 +591,15 @@
       </div>
     </div>
     
-          <div class="progress-section">
+    <div class="progress-section">
       <div class="time-container">
         <div class="current-time" id="current-time"></div>
-        <div class="close-time">Đóng: 23:59:59 31/03/2025</div>
+        <div class="close-time">Đóng: 17:59:59 07/04/2025</div>
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill"></div>
       </div>
-      <div id="connection-status" style="text-align: center; margin-top: 10px; font-size: 0.8rem; color: #7f8c8d;">
-        Đang kết nối với Google Sheets...
-      </div>
+      <div id="connection-status">Đang kết nối với Google Sheets...</div>
     </div>
     
     <div class="chart-container">
@@ -422,18 +629,18 @@
     
     // Định nghĩa các dự án
     const projects = [
-      { id: 'KCIT001', name: 'Dự án KCIT001', votes: 0, color: '#3498db' },
-      { id: 'KCIT002', name: 'Dự án KCIT002', votes: 0, color: '#2ecc71' },
-      { id: 'KCIT003', name: 'Dự án KCIT003', votes: 0, color: '#e74c3c' },
-      { id: 'KCIT004', name: 'Dự án KCIT004', votes: 0, color: '#f1c40f' },
-      { id: 'KCIT005', name: 'Dự án KCIT005', votes: 0, color: '#9b59b6' },
-      { id: 'KCIT006', name: 'Dự án KCIT006', votes: 0, color: '#1abc9c' },
-      { id: 'KCIT007', name: 'Dự án KCIT007', votes: 0, color: '#d35400' },
-      { id: 'KCIT008', name: 'Dự án KCIT008', votes: 0, color: '#34495e' },
-      { id: 'KCIT009', name: 'Dự án KCIT009', votes: 0, color: '#16a085' },
-      { id: 'KCIT010', name: 'Dự án KCIT010', votes: 0, color: '#27ae60' },
-      { id: 'KCIT011', name: 'Dự án KCIT011', votes: 0, color: '#2980b9' },
-      { id: 'KCIT012', name: 'Dự án KCIT012', votes: 0, color: '#8e44ad' }
+      { id: 'KCIT001', name: 'Dự án KCIT001', votes: 0, color: '#4361ee' },
+      { id: 'KCIT002', name: 'Dự án KCIT002', votes: 0, color: '#3a0ca3' },
+      { id: 'KCIT003', name: 'Dự án KCIT003', votes: 0, color: '#4895ef' },
+      { id: 'KCIT004', name: 'Dự án KCIT004', votes: 0, color: '#4cc9f0' },
+      { id: 'KCIT005', name: 'Dự án KCIT005', votes: 0, color: '#f72585' },
+      { id: 'KCIT006', name: 'Dự án KCIT006', votes: 0, color: '#7209b7' },
+      { id: 'KCIT007', name: 'Dự án KCIT007', votes: 0, color: '#3f37c9' },
+      { id: 'KCIT008', name: 'Dự án KCIT008', votes: 0, color: '#560bad' },
+      { id: 'KCIT009', name: 'Dự án KCIT009', votes: 0, color: '#480ca8' },
+      { id: 'KCIT010', name: 'Dự án KCIT010', votes: 0, color: '#b5179e' },
+      { id: 'KCIT011', name: 'Dự án KCIT011', votes: 0, color: '#6930c3' },
+      { id: 'KCIT012', name: 'Dự án KCIT012', votes: 0, color: '#5390d9' }
     ];
 
     // Mảng để lưu dữ liệu bình chọn từ Google Sheets
@@ -514,16 +721,16 @@
       });
     }
 
-    // Cập nhật xếp hạng
+    // Thay đổi phần cập nhật xếp hạng - hiển thị ribbon cho TOP 5 thay vì TOP 3
     function updateRankings() {
-      const rankingsContainer = document.getElementById('rankings');
-      rankingsContainer.innerHTML = '';
-      
-      // Sắp xếp dự án theo số lượt bình chọn
-      const sortedProjects = [...projects].sort((a, b) => b.votes - a.votes);
-      
-      // Tạo danh sách xếp hạng
-      sortedProjects.forEach((project, index) => {
+    const rankingsContainer = document.getElementById('rankings');
+    rankingsContainer.innerHTML = '';
+    
+    // Sắp xếp dự án theo số lượt bình chọn
+    const sortedProjects = [...projects].sort((a, b) => b.votes - a.votes);
+    
+    // Tạo danh sách xếp hạng
+    sortedProjects.forEach((project, index) => {
         const rankItem = document.createElement('div');
         rankItem.className = `rank-item rank-${index + 1}`;
         
@@ -543,20 +750,25 @@
         rankItem.appendChild(projectName);
         rankItem.appendChild(votesNumber);
         
-        // Thêm ruy băng cho top 3
-        if (index < 3 && project.votes > 0) {
-          const ribbon = document.createElement('div');
-          ribbon.className = 'ribbon';
-          
-          const ribbonSpan = document.createElement('span');
-          ribbonSpan.textContent = index === 0 ? 'Top 1' : index === 1 ? 'Top 2' : 'Top 3';
-          
-          ribbon.appendChild(ribbonSpan);
-          rankItem.appendChild(ribbon);
+        // Thêm ruy băng cho top 5 (thay vì top 3)
+        if (index < 5 && project.votes > 0) {
+        const ribbon = document.createElement('div');
+        ribbon.className = 'ribbon';
+        
+        const ribbonSpan = document.createElement('span');
+        // Cập nhật text hiển thị cho Top 4 và Top 5
+        if (index === 0) ribbonSpan.textContent = 'Top 1';
+        else if (index === 1) ribbonSpan.textContent = 'Top 2';
+        else if (index === 2) ribbonSpan.textContent = 'Top 3';
+        else if (index === 3) ribbonSpan.textContent = 'Top 4';
+        else ribbonSpan.textContent = 'Top 5';
+        
+        ribbon.appendChild(ribbonSpan);
+        rankItem.appendChild(ribbon);
         }
         
         rankingsContainer.appendChild(rankItem);
-      });
+    });
     }
 
     // Cập nhật lượt bình chọn mới nhất
@@ -588,31 +800,31 @@
 
     // Cập nhật thời gian còn lại
     function updateRemainingTime() {
-      const now = new Date();
-      const endDate = new Date('2025-03-31T23:59:59');
-      
-      const difference = endDate - now;
-      
-      if (difference > 0) {
+    const now = new Date();
+    const endDate = new Date('2025-04-07T17:59:59');
+    
+    const difference = endDate - now;
+    
+    if (difference > 0) {
         const hours = Math.floor(difference / (1000 * 60 * 60));
         const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
         
         document.getElementById('time-remaining').textContent = `${hours}h ${minutes}m ${seconds}s`;
-      } else {
+    } else {
         document.getElementById('time-remaining').textContent = 'Đã kết thúc';
-      }
-      
-      // Cập nhật thời gian hiện tại
-      const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' };
-      document.getElementById('current-time').textContent = `Hiện tại: ${now.toLocaleString('vi-VN', options)}`;
+    }
+    
+    // Cập nhật thời gian hiện tại
+    const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' };
+    document.getElementById('current-time').textContent = `Hiện tại: ${now.toLocaleString('vi-VN', options)}`;
     }
 
     // Cập nhật thanh tiến trình
     function updateProgressBar() {
       const now = new Date();
       const startDate = new Date('2025-03-31T00:00:00');
-      const endDate = new Date('2025-03-31T23:59:59');
+      const endDate = new Date('2025-04-07T17:59:59');
       
       const total = endDate - startDate;
       const elapsed = now - startDate;
@@ -632,7 +844,7 @@
         confetti.className = 'confetti';
         
         // Màu ngẫu nhiên
-        const colors = ['#3498db', '#2ecc71', '#e74c3c', '#f1c40f', '#9b59b6', '#1abc9c'];
+        const colors = ['#4361ee', '#3a0ca3', '#4895ef', '#4cc9f0', '#f72585', '#7209b7'];
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         confetti.style.backgroundColor = randomColor;
         
@@ -657,7 +869,7 @@
       }
     }
 
-    // Xử lý khi có lượt bình chọn mới (không còn mô phỏng nữa)
+    // Xử lý khi có lượt bình chọn mới
     function handleNewVotes(oldVotes, newVotes) {
       if (newVotes.length > oldVotes.length) {
         // Có lượt bình chọn mới
@@ -687,7 +899,7 @@
     async function fetchSheetData() {
       // Cập nhật trạng thái kết nối
       document.getElementById('connection-status').textContent = 'Đang kết nối với Google Sheets...';
-      document.getElementById('connection-status').style.color = '#7f8c8d';
+      document.getElementById('connection-status').style.color = 'var(--gray)';
       
       try {
         // Tạo URL API
@@ -713,7 +925,7 @@
           if (timeIndex === -1) {
             console.error('Không tìm thấy cột thời gian');
             document.getElementById('connection-status').textContent = 'Lỗi: Không tìm thấy cột thời gian';
-            document.getElementById('connection-status').style.color = '#e74c3c';
+            document.getElementById('connection-status').style.color = 'var(--danger)';
             return false;
           }
           
@@ -729,7 +941,7 @@
           if (Object.keys(projectColumns).length === 0) {
             console.error('Không tìm thấy cột dự án KCIT');
             document.getElementById('connection-status').textContent = 'Lỗi: Không tìm thấy cột dự án KCIT';
-            document.getElementById('connection-status').style.color = '#e74c3c';
+            document.getElementById('connection-status').style.color = 'var(--danger)';
             return false;
           }
           
@@ -769,7 +981,7 @@
                                now.getMinutes().toString().padStart(2, '0') + ':' + 
                                now.getSeconds().toString().padStart(2, '0');
           document.getElementById('connection-status').textContent = `Dữ liệu đã được cập nhật lúc ${formattedTime}`;
-          document.getElementById('connection-status').style.color = '#27ae60';
+          document.getElementById('connection-status').style.color = 'var(--success)';
           
           // Kiểm tra xem có lượt bình chọn mới không
           const hasNewVotes = handleNewVotes(oldVotingData, votingData);
@@ -786,13 +998,13 @@
         } else {
           console.error('Không tìm thấy dữ liệu trong Google Sheets');
           document.getElementById('connection-status').textContent = 'Lỗi: Không tìm thấy dữ liệu trong Google Sheets';
-          document.getElementById('connection-status').style.color = '#e74c3c';
+          document.getElementById('connection-status').style.color = 'var(--danger)';
           return false;
         }
       } catch (error) {
         console.error('Lỗi khi lấy dữ liệu từ Google Sheets:', error);
         document.getElementById('connection-status').textContent = `Lỗi kết nối: ${error.message}`;
-        document.getElementById('connection-status').style.color = '#e74c3c';
+        document.getElementById('connection-status').style.color = 'var(--danger)';
         return false;
       }
     }
@@ -817,7 +1029,9 @@
           { time: '31/03/2025 9:39:03', project: 'KCIT001' },
           { time: '31/03/2025 9:39:55', project: 'KCIT006' },
           { time: '31/03/2025 9:41:11', project: 'KCIT009' },
-          // Thêm dữ liệu mẫu khác nếu cần
+          { time: '31/03/2025 9:42:30', project: 'KCIT003' },
+          { time: '31/03/2025 9:43:15', project: 'KCIT001' },
+          { time: '31/03/2025 9:44:22', project: 'KCIT005' }
         ];
         initializeProjectData();
       }
